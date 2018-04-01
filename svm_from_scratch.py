@@ -4,7 +4,7 @@ import numpy as np
 style.use('ggplot')
 
 class Support_Vector_Machine:
-	def __init__(self,visualization=true):
+	def __init__(self,visualization=True):
 		self.visualization = true
 		self.colors = {1:'r', -1:'b'}
 		if self.visualization:
@@ -37,7 +37,7 @@ class Support_Vector_Machine:
 			while not optimized:
 				for b in np.arange(-1*(self.max_feature_value*b_range_multiple),self.max_feature_value*b_range_multiple, step*b_multiple):
 					for trasformation in transform:
-						w+t = w*trasformation
+						w_t = w*trasformation
 						found_option = True
 						#weakest link in the svm fundamentally
 						#yi(xi.w+b)>=1
@@ -64,7 +64,7 @@ class Support_Vector_Machine:
 		#sign x.w+b
 		classification = np.sign(np.dot(np.array(features),self.w)+self.b)
 		if classification != 0 and self.visualization:
-			self.ax.scatter(features[0],features[1], s=200, marker=*,c= self.colors[classification])
+			self.ax.scatter(features[0],features[1], s=200, marker='*',c= self.colors[classification])
 		return classification
 
 	def visualization(self):
@@ -85,26 +85,22 @@ class Support_Vector_Machine:
 
 		#(w.x+b)=-1
 		#negetive support vector hyperplane
-		psv1 = hyperplane(hyp_x_min, self.w, self.b, 1)
-		psv2 = hyperplane(hyp_x_max,self.w,self.b,1)
-		self.ax.plot([hyp_x_min,hyp_x_max],[psv1,psv2])
+		nsv1 = hyperplane(hyp_x_min, self.w, self.b, -1)
+		nsv2 = hyperplane(hyp_x_max,self.w,self.b, -1)
+		self.ax.plot([hyp_x_min,hyp_x_max],[nsv1,nsv2])
 
+		#(w.x+b)= 0
+		#positive support vector hyperplane
+		db1 = hyperplane(hyp_x_min, self.w, self.b, 1)
+		db2 = hyperplane(hyp_x_max,self.w,self.b,1)
+		self.ax.plot([hyp_x_min,hyp_x_max],[db1,db2])
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+		plt.show()
 
 
 #adding data to the class
 data_dict = {-1:np.array([[2,4],[3,2],[5,6],[4,7],[1,8]]), 1:np.array([[5,1],[6,-2],[5,-6],[-4,4],[-1,3]]) }
+
+svm =Support_Vector_Machine()
+svm.fit(data=data_dict)
+svm.visualize()
