@@ -24,8 +24,41 @@ class Support_Vector_Machine:
 
 		self.max_feature_value = max(all_data)
 		self.min_feature_value = min(all_data)
+		step_sizes = [self.max_feature_value*0.1, self.max_feature_value*0.01,self.max_feature_value*0.001]
+		#we dont need to take as small of steps with b as we do for w
+		b_multiple = 3
+		b_range_multiple = 3
+		latest_optimum = self.max_feature_value*10
 
-		pass
+		for step in step_sizes:
+			w = np.array([latest_optimum,latest_optimum])
+			#convex for optimization
+			optimized = false
+			while not optimized:
+				for b in np.arange(-1*(self.max_feature_value*b_range_multiple),self.max_feature_value*b_range_multiple, step*b_multiple):
+					for trasformation in transform:
+						w+t = w*trasformation
+						found_option = True
+						#weakest link in the svm fundamentally
+						#yi(xi.w+b)>=1
+						for i in self.data:
+							for xi in self.data[i]:
+								yi = i
+								if not yi*(np.dot(w_t,xi)+b) >= 1:
+									found_option = False
+				if found_option:
+					opt_data[np.linalg.norm(w_t)] = [w_t,b]
+		if w[0] < 0:
+			optimized = True
+			print("optimized a step")
+		else:
+			w=w-step
+	norms = sorted([n for n in opt_dict])
+	opt_choice = norms[0]
+	#||w||: [w,b]
+	self.w = opt_choice[0]
+	self.w = opt_choice[1]
+	latest_optimum = opt_choice[0][0]+step*2		
 
 	def predict(self, features):
 		#sign x.w+b
