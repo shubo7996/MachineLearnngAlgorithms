@@ -5,11 +5,12 @@ style.use('ggplot')
 
 class Support_Vector_Machine:
 	def __init__(self,visualization=True):
-		self.visualization = true
+		self.visualization = True
 		self.colors = {1:'r', -1:'b'}
 		if self.visualization:
 			self.fig = plt.figure()
 			self.ax = self.fig.add_subplot(1,1,1)
+	
 	#train the dataset
 	def fit(self, data):
 		self.data = data
@@ -33,7 +34,7 @@ class Support_Vector_Machine:
 		for step in step_sizes:
 			w = np.array([latest_optimum,latest_optimum])
 			#convex for optimization
-			optimized = false
+			optimized = False
 			while not optimized:
 				for b in np.arange(-1*(self.max_feature_value*b_range_multiple),self.max_feature_value*b_range_multiple, step*b_multiple):
 					for trasformation in transform:
@@ -53,12 +54,13 @@ class Support_Vector_Machine:
 			print("optimized a step")
 		else:
 			w=w-step
-	norms = sorted([n for n in opt_dict])
-	opt_choice = norms[0]
-	#||w||: [w,b]
-	self.w = opt_choice[0]
-	self.w = opt_choice[1]
-	latest_optimum = opt_choice[0][0]+step*2		
+	
+		norms = sorted([n for n in opt_dict])
+		opt_choice = norms[0]
+		#||w||: [w,b]
+		self.w = opt_choice[0]
+		self.w = opt_choice[1]
+		latest_optimum = opt_choice[0][0]+step*2		
 
 	def predict(self, features):
 		#sign x.w+b
@@ -101,6 +103,9 @@ class Support_Vector_Machine:
 #adding data to the class
 data_dict = {-1:np.array([[2,4],[3,2],[5,6],[4,7],[1,8]]), 1:np.array([[5,1],[6,-2],[5,-6],[-4,4],[-1,3]]) }
 
-svm =Support_Vector_Machine()
+svm = Support_Vector_Machine()
 svm.fit(data=data_dict)
+prediction_data = [[5,4],[4,5],[0,10],[-7,3],[-4,6],[3,5],[1,4],[-6,8]]
+for p in prediction_data:
+	svm.predict(p)
 svm.visualize()
